@@ -1,0 +1,40 @@
+{
+  "description": "EFS cluster volumes for Docker",
+  "documentation": "https://docs.docker.com/engine/extend/plugins/",
+  "entrypoint": [
+    "tini",
+    "--",
+    "docker-volume-plugin"
+  ],
+  "network": {
+    "type": "host"
+  },
+  "interface": {
+    "socket": "efsvolumes.sock",
+    "types": [
+      "docker.volumedriver/1.0"
+    ]
+  },
+  "linux": {
+    "capabilities": [
+      "CAP_SYS_ADMIN"
+    ],
+    "devices": [
+			{
+				"name":"fuse",
+				"path":"/dev/fuse"
+			}
+		]
+  },
+  "propagatedMount": "/mnt/volumes",
+  "env": [
+    {
+      "name": "EFS_ID",
+      "description": "File System ID",
+      "settable": [
+        "value"
+      ],
+      "value": ""
+    }
+  ]
+}

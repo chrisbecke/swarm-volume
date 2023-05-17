@@ -1,0 +1,12 @@
+services:
+  efs-swarm-volume:
+    image: docker-volume-plugin:efs
+    build:
+      context: .
+      dockerfile: efs-swarm-volume/Dockerfile
+
+  glusterfs-swarm-volume:
+    image: docker-volume-plugin:glusterfs
+    build:
+      context: .
+      dockerfile: glusterfs-swarm-volume/Dockerfile
