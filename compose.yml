@@ -10,3 +10,9 @@ services:
     build:
       context: .
       dockerfile: glusterfs-swarm-volume/Dockerfile
+
+  nfs-swarm-volume:
+    image: docker-volume-plugin:nfs
+    build:
+      context: .
+      dockerfile: nfs-swarm-volume/Dockerfile

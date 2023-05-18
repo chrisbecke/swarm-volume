@@ -1,0 +1,56 @@
+{
+  "description": "NFS cluster volumes for Docker",
+  "documentation": "https://docs.docker.com/engine/extend/plugins/",
+  "entrypoint": [
+    "tini",
+    "--",
+    "docker-volume-plugin"
+  ],
+  "network": {
+    "type": "host"
+  },
+  "interface": {
+    "socket": "nfsvol.sock",
+    "types": [
+      "docker.volumedriver/1.0"
+    ]
+  },
+  "linux": {
+    "capabilities": [
+      "CAP_SYS_ADMIN"
+    ],
+    "devices": [
+			{
+				"name":"fuse",
+				"path":"/dev/fuse"
+			}
+		]
+  },
+  "propagatedMount": "/mnt/volumes",
+  "env": [
+    {
+      "name": "NFS_TYPE",
+      "description": "Mount Type (nfs|nfs4)",
+      "settable": [
+        "value"
+      ],
+      "value": "nfs4"
+    },
+    {
+      "name": "NFS_DEVICE",
+      "description": "Mount Device (<fs-id>.efs.<region>.amazonaws.com:/)",
+      "settable": [
+        "value"
+      ],
+      "value": ""
+    },
+    {
+      "name": "NFS_OPTIONS",
+      "description": "File System Options",
+      "settable": [
+        "value"
+      ],
+      "value": "nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport"
+    }
+  ]
+}

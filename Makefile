@@ -1,7 +1,10 @@
+PLUGIN_IMAGE = docker-volume-plugin:nfs
+PLUGIN = chrisbecke/swarm-volume:nfs
+TARGET = nfs-swarm-volume
 
-PLUGIN_IMAGE = docker-volume-plugin:efs
-PLUGIN = chrisbecke/swarm-volume:efs
-TARGET = efs-swarm-volume
+# PLUGIN_IMAGE = docker-volume-plugin:efs
+# PLUGIN = chrisbecke/swarm-volume:efs
+# TARGET = efs-swarm-volume
 
 # PLUGIN_IMAGE = docker-volume-plugin:gfs
 # PLUGIN = chrisbecke/swarm-volume:glusterfs
@@ -18,10 +21,10 @@ build: build-plugin
 build-image:
 	@echo [MAKE] Building image $(PLUGIN_IMAGE)
 #	docker buildx build --progress plain . --tag $(PLUGIN_IMAGE)
-	docker compose build $(TARGET)
+	@docker compose build $(TARGET)
 
 build-plugin: plugin/$(TARGET)/rootfs plugin/$(TARGET)/config.json
-	@echo [MAKE] Creating plugin $(PLUGIN) from ./plugin/$(TARGET)
+	@echo [MAKE] Creating plugin $(PLUGIN) from plugin/$(TARGET)
 	@docker --context default plugin disable --force $(PLUGIN) ; true
 	@docker --context default plugin rm --force $(PLUGIN) ; true
 	@sudo docker plugin create $(PLUGIN) ./plugin/$(TARGET)/
@@ -30,19 +33,17 @@ plugin:
 
 plugin/$(TARGET)/rootfs:
 	@$(MAKE) build-image
-	@echo [MAKE] Building $@
+	@echo [MAKE] Exporting plugin to $@
 	@mkdir -p $@
 	@-docker export "$(TMP_ID)" | sudo tar -x -C $@
 
 plugin/$(TARGET)/config.json: $(TARGET)/config.json
-	@echo [make] Generating $@
+	@echo [MAKE] Generating $@
 	@cp $< $@
 
 clean:
 	@echo [MAKE] Deleting plugin/$(TARGET)
 	@sudo rm -rf plugin/$(TARGET)
-
-
 
 test:
 	@-docker plugin disable $(PLUGIN) --force
@@ -51,4 +52,4 @@ test:
 	@docker plugin enable $(PLUGIN)
 
 push:
-	docker plugin push $(PLUGIN)
+	@docker plugin push $(PLUGIN)
