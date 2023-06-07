@@ -1,10 +1,10 @@
-PLUGIN_IMAGE = docker-volume-plugin:nfs
-PLUGIN = chrisbecke/swarm-volume:nfs
-TARGET = nfs-swarm-volume
+# PLUGIN_IMAGE = docker-volume-plugin:nfs
+# PLUGIN = chrisbecke/swarm-volume:nfs
+# TARGET = nfs-swarm-volume
 
-# PLUGIN_IMAGE = docker-volume-plugin:efs
-# PLUGIN = chrisbecke/swarm-volume:efs
-# TARGET = efs-swarm-volume
+PLUGIN_IMAGE = docker-volume-plugin:efs
+PLUGIN = chrisbecke/swarm-volume:efs
+TARGET = efs-swarm-volume
 
 # PLUGIN_IMAGE = docker-volume-plugin:gfs
 # PLUGIN = chrisbecke/swarm-volume:glusterfs

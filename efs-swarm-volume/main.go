@@ -43,6 +43,7 @@ func main() {
 	err := mountWithEfs(efsId, "/mnt/volumes")
 	if err != nil {
 		log.Print(err)
+		return
 	}
 
 	d := driver.NewDriver("/mnt/volumes")

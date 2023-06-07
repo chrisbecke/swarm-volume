@@ -20,6 +20,6 @@ mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=
 ## The Plugin
 
 ```bash
-docker plugin install chrisbecke/swarm-volume:efs --alias swarmvol --grant-all-permissions EFS_ID=fs-03a6f6df47f67f7d1
+docker plugin install chrisbecke/swarm-volume:nfs --alias swarmvol --grant-all-permissions NFS_DEVICE="fs-03a6f6df47f67f7d1.efs.eu-west-1.amazonaws.com:/"
 docker plugin set fs-03a6f6df47f67f7d1
 ```
