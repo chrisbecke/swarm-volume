@@ -22,6 +22,27 @@ docker plugin install chrisbecke/swarm-volume:nfs --alias swarmvol --grant-all-p
 docker plugin set swarmvol NFS_OPTIONS=nfsvers=4.1,timeo=600,retrans=2,noresvport
 ```
 
+The alias as it is important when creating volumes from docker or compose.
+
+e.g. to create a volume on the mounted nfs share:
+
+```bash
+docker volume create --driver swarmvol my-shared-volume
+```
+
+Or from compose. 
+
+```yaml
+volumes:
+  data:
+    driver: swarmvol
+  global:
+    driver: swarmvol
+    name: global
+
+services:
+```
+
 ## Configuration
 
 The prefix indicates which plugin variant the setting applies to:
